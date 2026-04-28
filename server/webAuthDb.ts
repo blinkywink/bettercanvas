@@ -198,8 +198,8 @@ export function registerWebAuthRoutes(app: Express): void {
       await ensureSchema();
       const username = String(req.body?.username || '').trim();
       const password = String(req.body?.password || '');
-      if (!/^[a-zA-Z0-9_-]{3,24}$/.test(username)) {
-        return res.status(400).json({ error: 'Username must be 3-24 chars: letters, numbers, _ or -' });
+      if (username.length < 1 || username.length > 32) {
+        return res.status(400).json({ error: 'Username must be 1-32 characters' });
       }
       if (password.length < 4) {
         return res.status(400).json({ error: 'Password must be at least 4 characters' });
@@ -224,7 +224,7 @@ export function registerWebAuthRoutes(app: Express): void {
         return res.status(409).json({ error: 'Username already exists' });
       }
       console.error('register error', e);
-      return res.status(500).json({ error: 'Register failed' });
+      return res.status(500).json({ error: `Register failed: ${String((e as any)?.message || 'Unknown error')}` });
     }
   });
 
