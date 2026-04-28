@@ -234,7 +234,7 @@ function registerWebAuthRoutes(app) {
         }
         catch (e) {
             console.error('login error', e);
-            return res.status(500).json({ error: 'Login failed' });
+            return res.status(500).json({ error: `Login failed: ${String(e?.message || 'Unknown error')}` });
         }
     });
     app.post('/api/auth/logout', async (req, res) => {
@@ -258,8 +258,13 @@ function registerWebAuthRoutes(app) {
                 username: s?.username ?? null,
             });
         }
-        catch {
-            return res.json({ enabled: true, authenticated: false, username: null });
+        catch (e) {
+            return res.status(500).json({
+                enabled: true,
+                authenticated: false,
+                username: null,
+                error: String(e?.message || 'status failed'),
+            });
         }
     });
 }

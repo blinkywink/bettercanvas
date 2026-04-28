@@ -243,9 +243,9 @@ export function registerWebAuthRoutes(app: Express): void {
       ]);
       setSessionCookie(res, sid);
       return res.json({ ok: true, user: { id: Number(row.id), username: String(row.username) } });
-    } catch (e) {
+    } catch (e: any) {
       console.error('login error', e);
-      return res.status(500).json({ error: 'Login failed' });
+      return res.status(500).json({ error: `Login failed: ${String(e?.message || 'Unknown error')}` });
     }
   });
 
@@ -268,8 +268,13 @@ export function registerWebAuthRoutes(app: Express): void {
         authenticated: Boolean(s),
         username: s?.username ?? null,
       });
-    } catch {
-      return res.json({ enabled: true, authenticated: false, username: null });
+    } catch (e: any) {
+      return res.status(500).json({
+        enabled: true,
+        authenticated: false,
+        username: null,
+        error: String(e?.message || 'status failed'),
+      });
     }
   });
 }
