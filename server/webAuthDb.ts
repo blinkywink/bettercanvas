@@ -196,13 +196,10 @@ export function registerWebAuthRoutes(app: Express): void {
   app.post('/api/auth/register', async (req, res) => {
     try {
       await ensureSchema();
-      const username = String(req.body?.username || '').trim();
-      const password = String(req.body?.password || '');
-      if (username.length < 1 || username.length > 32) {
-        return res.status(400).json({ error: 'Username must be 1-32 characters' });
-      }
-      if (password.length < 4) {
-        return res.status(400).json({ error: 'Password must be at least 4 characters' });
+      const username = String(req.body?.username ?? '').trim();
+      const password = String(req.body?.password ?? '');
+      if (!username) {
+        return res.status(400).json({ error: 'Username is required' });
       }
       const hash = await bcrypt.hash(password, 10);
       const p = getPool();

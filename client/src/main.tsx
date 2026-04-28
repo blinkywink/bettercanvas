@@ -46,12 +46,17 @@ function AuthGate() {
       })
       if (!r.ok) {
         let j: any = {}
+        let t = ''
         try {
           j = await r.json()
         } catch {
-          // ignore
+          try {
+            t = await r.text()
+          } catch {
+            // ignore
+          }
         }
-        setError(j.error || 'Authentication failed')
+        setError(j.error || t || `Authentication failed (${r.status})`)
         setBusy(false)
         return
       }
