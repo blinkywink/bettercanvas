@@ -6,14 +6,23 @@ import './index.css'
 async function requireAuthIfNeeded(): Promise<boolean> {
   try {
     const r = await fetch('/api/auth/status', { credentials: 'include' })
-    if (!r.ok) return true
+    if (!r.ok) {
+      if (window.location.pathname !== '/bct-sign-in') {
+        window.location.replace('/bct-sign-in')
+        return false
+      }
+      return true
+    }
     const d = (await r.json()) as { enabled?: boolean; authenticated?: boolean }
     if (d.enabled === true && d.authenticated === false) {
       window.location.replace('/bct-sign-in')
       return false
     }
   } catch {
-    // Offline or CORS oddity — still mount the app
+    if (window.location.pathname !== '/bct-sign-in') {
+      window.location.replace('/bct-sign-in')
+      return false
+    }
   }
   return true
 }
