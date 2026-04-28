@@ -1,0 +1,32 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --theme-primary: #0ea5e9;
+  --theme-secondary: #06b6d4;
+  --theme-accent: #14b8a6;
+  --theme-background: #f0f9ff;
+  --theme-surface: #ffffff;
+  --theme-text: #0c4a6e;
+  --theme-text-secondary: #64748b;
+  --theme-border: #bae6fd;
+  --theme-success: #10b981;
+  --theme-warning: #f59e0b;
+  --theme-error: #ef4444;
+  --theme-calendar-bg: #e0f2fe;
+  --theme-calendar-border: #7dd3fc;
+  --theme-calendar-border-other: #bae6fd;
+}
+
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: var(--theme-background);
+  color: var(--theme-text);
+}
+

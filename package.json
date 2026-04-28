@@ -3,13 +3,16 @@
   "version": "1.0.0",
   "private": true,
   "description": "Web-only Better Calendar Tasks (Vercel + Postgres)",
+  "engines": {
+    "node": "20.x"
+  },
   "scripts": {
     "dev": "concurrently \"npm run dev:server\" \"npm run dev:client\"",
     "dev:server": "tsx watch server/index.ts",
     "dev:client": "cd client && npm run dev",
     "build": "npm run build:server && npm run build:client",
     "build:server": "tsc --project tsconfig.server.json",
-    "build:client": "cd client && npm run build",
+    "build:client": "cd client && npm install && npm run build",
     "serve": "node server-dist/index.js"
   },
   "dependencies": {
